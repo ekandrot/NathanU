@@ -78,3 +78,12 @@ var compile = function (musexpr) {
 //console.log(compile(melody3));
 
 
+// Lesson 2.5
+
+var playMUS = function(expr) { playNOTE( compile( expr ));};
+
+
+// Lesson 2.6
+
+
+
