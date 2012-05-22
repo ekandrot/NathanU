@@ -44,3 +44,24 @@ upperLetter =
     [A-Z]
 
 
+// lesson 3.4
+// start of Scheem parser
+
+start =
+    wordlist
+
+wordlist =
+    spacedword+
+
+spacedword =
+    first:" "* second:word
+        {return second;}
+
+word =
+    first:lowerLetter rest:lowerLetter*
+        {return first + rest.join("");}
+
+lowerLetter =
+    [a-z]
+
+
