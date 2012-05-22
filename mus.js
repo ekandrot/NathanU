@@ -83,7 +83,34 @@ var compile = function (musexpr) {
 var playMUS = function(expr) { playNOTE( compile( expr ));};
 
 
-// Lesson 2.6
+// Lesson 2.7
 
+var harmony = { tag: 'par',
+  left: { tag: 'note', pitch: 'c4', dur: 250 },
+  right:
+   { tag: 'par',
+     left: { tag: 'note', pitch: 'e4', dur: 250 },
+     right: { tag: 'note', pitch: 'g4', dur: 250 } } };
 
+var leftWalk = function( expr, r, time ) {
+    if (expr.tag == 'note') {
+        r.push( {tag:'note', pitch:expr.pitch, start:time, dur:expr.dur} );
+        return time + expr.dur;
+    }
+    if (expr.tag == 'par') {
+        return Math.max( leftWalk( expr.left, r, time ), leftWalk( expr.right, r, time ) );
+    }
+
+    // assume expr.tag == 'seq' at this point
+    time = leftWalk( expr.left, r, time );
+    time = leftWalk( expr.right, r, time );
+    return time;
+};
+
+var compile = function (musexpr) {
+    var r = [];
+    leftWalk( musexpr, r, 0 );
+    return r;
+};
+//console.log(compile(harmony));
 
