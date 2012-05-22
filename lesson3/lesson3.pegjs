@@ -51,15 +51,16 @@ start =
     wordlist
 
 wordlist =
-    spacedword+
+    w:word s:spacedword*
+        {return [w].concat(s);};
 
 spacedword =
-    first:" "* second:word
-        {return second;}
+    " "* word:word
+        {return word;}
 
 word =
-    first:lowerLetter rest:lowerLetter*
-        {return first + rest.join("");}
+    first:lowerLetter+
+        {return first.join("");}
 
 lowerLetter =
     [a-z]
