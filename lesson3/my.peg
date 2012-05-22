@@ -1,0 +1,17 @@
+start =
+    wordlist
+
+wordlist =
+    w:word s:spacedword*
+        {return [w].concat(s);};
+
+spacedword =
+    " "* word:word
+        {return word;}
+
+word =
+    first:lowerLetter+
+        {return first.join("");}
+
+lowerLetter =
+    [a-z]
