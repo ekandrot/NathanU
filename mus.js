@@ -54,3 +54,27 @@ var endTime = function (time, expr) {
 //console.log(endTime(10, melody2));
 //console.log(endTime(23, melody3));
 
+
+// Lesson 2.4
+
+var leftWalk = function( expr, r, time ) {
+    if (expr.tag == 'note') {
+        r.push( {tag:'note', pitch:expr.pitch, start:time, dur:expr.dur} );
+        return time + expr.dur;
+    }
+    // assume expr.tag == 'seq' at this point
+    time = leftWalk( expr.left, r, time );
+    time = leftWalk( expr.right, r, time );
+    return time;
+};
+
+var compile = function (musexpr) {
+    var r = [];
+    leftWalk( musexpr, r, 0 );
+    return r;
+};
+//console.log(compile(melody1));
+//console.log(compile(melody2));
+//console.log(compile(melody3));
+
+
