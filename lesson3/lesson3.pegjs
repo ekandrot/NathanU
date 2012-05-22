@@ -88,3 +88,35 @@ atom =
 list =
     " "* "(" expr:expression+ ")"
         {return expr;}
+
+// lesson 3.7
+// adding a comma operator to supplied example
+
+start =
+    comma
+
+comma =
+    left:additive "," right:comma
+        {return {tag:",", left:left, right:right};}
+  / additive
+
+additive =
+    left:multiplicative "+" right:additive
+        { return {tag: "+", left:left, right:right}; }
+  / multiplicative
+
+multiplicative =
+    left:primary "*" right:multiplicative
+        { return {tag: "*", left:left, right:right}; }
+  / primary
+
+primary =
+    integer
+  / "(" additive:additive ")"
+      { return additive; }
+
+integer =
+    digits:[0-9]+
+        { return parseInt(digits.join(""), 10); }
+
+
