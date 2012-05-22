@@ -78,13 +78,13 @@ validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
 
 spacedatom =
-    first:" "* second:atom
-        {return second;}
+    " "* atom:atom
+        {return atom;}
 
 atom =
     chars:validchar+
         { return chars.join(""); }
 
 list =
-    first:" "* left:"(" expr:expression+ right:")"
+    " "* "(" expr:expression+ ")"
         {return expr;}
