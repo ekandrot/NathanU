@@ -23,6 +23,13 @@ var harmony = { tag: 'par',
      left: { tag: 'note', pitch: 'e4', dur: 250 },
      right: { tag: 'note', pitch: 'g4', dur: 250 } } };
 
+var repeatSingle = { tag: 'repeat',
+  section: { tag: 'note', pitch: 'c4', dur: 250 },
+  count: 3 };
+  
+var repeatHarmony = { tag: 'repeat',
+  section: harmony,
+  count: 3 };
 
 //--------------------- code ---------------------------
 
@@ -51,6 +58,11 @@ var leftWalk = function( expr, r, time ) {
         case 'rest':
             time += expr.duration;
             break;
+        case 'repeat':
+            for (var i=0; i<expr.count; i++) {
+                time = leftWalk( expr.section, r, time );
+            }
+            break;
         default :
             console.log( "Unknown tag!  " + expr.tag );
     }
@@ -64,3 +76,5 @@ var compile = function (musexpr) {
 };
 
 console.log(compile(harmony));
+console.log(compile(repeatSingle));
+console.log(compile(repeatHarmony));
