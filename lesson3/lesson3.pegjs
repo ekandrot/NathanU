@@ -65,3 +65,26 @@ lowerLetter =
     [a-z]
 
 
+// lesson 3.5
+
+start =
+    expression
+
+expression =
+    spacedatom
+  / list
+    
+validchar
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+
+spacedatom =
+    first:" "* second:atom
+        {return second;}
+
+atom =
+    chars:validchar+
+        { return chars.join(""); }
+
+list =
+    first:" "* left:"(" expr:expression+ right:")"
+        {return expr;}
