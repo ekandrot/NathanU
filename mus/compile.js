@@ -24,29 +24,37 @@ var harmony = { tag: 'par',
      right: { tag: 'note', pitch: 'g4', dur: 250 } } };
 
 
+//--------------------- code ---------------------------
+
+// converts two letter codes into midi numbers
+// c4 returns 60, e4 returns 64, etc
+// based on function I saw on the forums by markwaddle
+var convertPitch = function( note ) {
+    var conv = {a:9, b:11, c:0, d:2, e:4, f:5, g:7};
+    return conv[note[0]] + (12 * note[1]) + 12;
+}
 
 
 var leftWalk = function( expr, r, time ) {
     switch(expr.tag) {
         case 'note':
-            r.push( {tag:'note', pitch:expr.pitch, start:time, dur:expr.dur} );
-            return time + expr.dur;
+            r.push( {tag:'note', pitch:convertPitch(expr.pitch), start:time, dur:expr.dur} );
+            time += expr.dur;
             break;
         case 'par':
-            return Math.max( leftWalk( expr.left, r, time ), leftWalk( expr.right, r, time ) );
+            time = Math.max( leftWalk( expr.left, r, time ), leftWalk( expr.right, r, time ) );
             break;
         case 'seq':
             time = leftWalk( expr.left, r, time );
             time = leftWalk( expr.right, r, time );
-            return time;
             break;
         case 'rest':
-            return time + expr.duration;
+            time += expr.duration;
             break;
         default :
             console.log( "Unknown tag!  " + expr.tag );
     }
-    return 0;
+    return time;
 };
 
 var compile = function (musexpr) {
