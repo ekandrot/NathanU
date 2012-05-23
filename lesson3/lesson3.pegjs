@@ -65,6 +65,19 @@ word =
 lowerLetter =
     [a-z]
 
+// lesson 3.4
+// solution from DigiTec on the forum - very sleek
+start =
+    wordlist
+
+word =
+    all:[a-z]+ { return all.join(""); }
+
+wordlist =
+    first:word other:(" " word)* 
+        {return [first].concat(other.map(function(elem) { return elem[1]; }));}
+
+
 
 // lesson 3.5
 
@@ -87,7 +100,7 @@ atom =
         { return chars.join(""); }
 
 list =
-    "(" expr:expression tail:spacedExpression+ ")"
+    "(" expr:expression tail:spacedExpression* ")"
         {return [expr].concat(tail);}
 
 // lesson 3.7
