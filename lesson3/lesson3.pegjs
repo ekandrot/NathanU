@@ -72,23 +72,23 @@ start =
     expression
 
 expression =
-    spacedatom
+    atom
   / list
     
 validchar
     = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
 
-spacedatom =
-    " "* atom:atom
-        {return atom;}
+spacedExpression =
+    " "* expression:expression
+        {return expression;}
 
 atom =
     chars:validchar+
         { return chars.join(""); }
 
 list =
-    " "* "(" expr:expression+ ")"
-        {return expr;}
+    "(" expr:expression tail:spacedExpression+ ")"
+        {return [expr].concat(tail);}
 
 // lesson 3.7
 // adding a comma operator to supplied example
