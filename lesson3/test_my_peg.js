@@ -1,3 +1,16 @@
+// from Nathan on the forums
+var wrapExceptions = function(f) {
+    return function(x) {
+        try {
+            return f(x);
+        }
+        catch(err) {
+            return undefined;
+        }
+    };
+};
+
+
 var PEG = require('pegjs');
 var assert = require('assert');
 var fs = require('fs'); // for loading files
@@ -8,6 +21,7 @@ var data = fs.readFileSync('my.peg', 'utf-8');
 //console.log(data);
 // Create my parser
 var parse = PEG.buildParser(data).parse;
+parse = wrapExceptions(parse);
 // Do a test
 
 //assert.deepEqual(parse(""), undefined);
