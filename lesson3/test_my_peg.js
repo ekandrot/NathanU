@@ -12,10 +12,12 @@ var parse = PEG.buildParser(data).parse;
 
 //assert.deepEqual(parse(""), undefined);
 
-//console.log(parse(""));
-console.log(parse("dog"));
-console.log(parse("black dog"));
-console.log(parse("angry black dog"));
-console.log(parse("Gray dog"));
-//assert.deepEqual( parse("dog"), ["dog"] );
+console.log(parse("1"));
+console.log(parse("(hello)"));
+console.log(parse("(hello   world)"));
+console.log(parse(" (  hello   world \t\n ) "));
+console.log(parse("(+ (* 2 3) x)"));
+console.log(parse("'x"));
+console.log(parse("'(1 2 3)"));
+console.log(parse("'(+ (* 2 3) x)"));
 

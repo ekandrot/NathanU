@@ -1,17 +1,23 @@
 start =
-    wordlist
+    expression
 
-wordlist =
-    w:word s:spacedword*
-        {return [w].concat(s);};
+expression =
+    atom
+  / list
+    
+validchar
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
 
-spacedword =
-    " "* word:word
-        {return word;}
+spacedExpression =
+    spacing expression:expression
+        {return expression;}
 
-word =
-    first:lowerLetter+
-        {return first.join("");}
+atom =
+    chars:validchar+
+        { return chars.join(""); }
 
-lowerLetter =
-    [a-z]
+list =
+    spacing "(" spacing expr:expression tail:spacedExpression* spacing ")" spacing
+        {return [expr].concat(tail);}
+
+spacing = [ \n\t]*
