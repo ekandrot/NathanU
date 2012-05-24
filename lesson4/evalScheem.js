@@ -124,6 +124,10 @@ var evalScheem = function (expr, env) {
         case '+':
             return evalScheem(expr[1], env) +
                    evalScheem(expr[2], env);
+        case '<':
+            if (evalScheem(expr[1], env) < evalScheem(expr[2], env))
+                return '#t';
+            return '#f';
         case 'set!':
         case 'define':
             env[expr[1]] = evalScheem(expr[2],env);
