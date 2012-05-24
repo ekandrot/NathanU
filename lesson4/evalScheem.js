@@ -107,3 +107,35 @@ var evalScheem = function (expr, env) {
 };
 //console.log(evalScheem(['begin', 1, 'a', 3], {}));
 
+
+// lesson 4.5
+
+var evalScheem = function (expr, env) {
+    // Numbers evaluate to themselves
+    if (typeof expr === 'number') {
+        return expr;
+    }
+    // Strings are variable references
+    if (typeof expr === 'string') {
+        return env[expr];
+    }
+    // Look at head of list for operation
+    switch (expr[0]) {
+        case '+':
+            return evalScheem(expr[1], env) +
+                   evalScheem(expr[2], env);
+        case 'set!':
+        case 'define':
+            env[expr[1]] = evalScheem(expr[2],env);
+            return 0;
+        case 'quote':
+            return expr[1];
+        case 'begin':
+            var value=0;
+            var len = expr.length;
+            for (var i=1; i<len; i++) {
+                value = evalScheem(expr[i],env);
+            }
+            return value;
+    }
+};
