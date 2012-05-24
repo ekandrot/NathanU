@@ -108,7 +108,7 @@ var evalScheem = function (expr, env) {
 //console.log(evalScheem(['begin', 1, 'a', 3], {}));
 
 
-// lesson 4.5
+// lesson 4.5 and 4.6
 
 var evalScheem = function (expr, env) {
     // Numbers evaluate to themselves
