@@ -143,3 +143,28 @@ var evalScheem = function (expr, env) {
             return value;
     }
 };
+
+
+// lesson 4.7
+
+var evalScheem = function (expr, env) {
+    // Numbers evaluate to themselves
+    if (typeof expr === 'number') {
+        return expr;
+    }
+    // Look at head of list for operation
+    switch (expr[0]) {
+        case 'quote':
+            return expr[1];
+        case 'car':
+            return evalScheem(expr[1])[0];
+        case 'cdr':
+            return evalScheem(expr[1]).slice(1);
+        case 'cons':
+            return [evalScheem(expr[1],env)].concat(evalScheem(expr[2],env));
+    }
+};
+//console.log(evalScheem(['cons', 1, ['quote', [2, 3]]], {}));
+//console.log(evalScheem(['car', ['quote', [[1, 2], 3, 4]]], {}));
+//console.log(evalScheem(['cdr', ['quote', [[1, 2], 3, 4]]], {}));
+
